@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div :class="['login-container',{'hinge':loginSuc}]">
     <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
       <h3 class="title">vue-admin-template</h3>
       <el-form-item prop="username">
@@ -51,7 +51,8 @@ export default {
       },
       loading: false,
       pwdType: 'password',
-      redirect: undefined
+      redirect: undefined,
+      loginSuc: false
     }
   },
   watch: {
@@ -71,12 +72,19 @@ export default {
       }
     },
     handleLogin () {
+      const that = this
       this.$validator.validate().then(valid => {
         if (!valid) {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
+
+            this.loginSuc = true
+            console.log(this.loginSuc)
+            setTimeout(() => {
+              that.$router.push({ path: this.redirect || '/' })
+            }, 1800)
+
           }).catch(() => {
             this.loading = false
           })
@@ -94,6 +102,48 @@ export default {
 @bg: #2d3a4b;
 @light_gray: #eee;
 
+@keyframes hinge {
+  0% {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  20%,
+  60% {
+    -webkit-transform: rotate3d(0, 0, 1, 80deg);
+    transform: rotate3d(0, 0, 1, 80deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  40%,
+  80% {
+    -webkit-transform: rotate3d(0, 0, 1, 60deg);
+    transform: rotate3d(0, 0, 1, 60deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 700px, 0);
+    transform: translate3d(0, 700px, 0);
+    opacity: 0;
+  }
+}
+/* 出去终点 */
+.hinge{
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-name: hinge;
+  animation-name: hinge;
+}
 /* reset element-ui css */
 .login-container {
   .el-input {

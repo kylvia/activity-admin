@@ -45,7 +45,7 @@ module.exports = {
     // 启用 CSS modules
     modules: false,
     // 是否使用css分离插件
-    extract: true,
+    extract: false,
     // 开启 CSS source maps?
     sourceMap: false,
     // css预设器配置项
@@ -57,8 +57,7 @@ module.exports = {
     port: 8080,
     https: false,
     open: true,
-    // hot: true,
-    hotOnly: false,
+    hot: true,
     proxy: {
       '/user/info': {
         target: MOCK_URL,
